@@ -2,3 +2,6 @@
 *.pt
 *.pth
 *.h5
+
+# Files in these dirs
+venv/
