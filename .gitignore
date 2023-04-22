@@ -1,5 +1,4 @@
 # Large models and data files
-*.csv
 *.pt
 *.pth
 *.h5
