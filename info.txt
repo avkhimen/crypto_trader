@@ -4,4 +4,4 @@ https://futures.kraken.com/api/charts/v1/spot/PI_XBTUSD/1h?from=1629038028&to=16
 
 https://www.unixtimestamp.com/
 
-test
+https://support.kraken.com/hc/en-us/articles/360047124832-Downloadable-historical-OHLCVT-Open-High-Low-Close-Volume-Trades-data
