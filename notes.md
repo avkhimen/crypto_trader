@@ -2,4 +2,6 @@
 
 ## Ideas for Processing
 
-1. 
+Appraach 1:
+
+1.  
