@@ -9,4 +9,8 @@ class CryptoEnv()
         random_index = np.random.choice(self.price_size, 1)
         pass
     def step(self):
-        pass
+        next_state = []
+        reward = 0
+        done = False
+        info = {}
+        return next_state, reward, done, info
