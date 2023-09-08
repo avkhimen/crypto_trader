@@ -3,7 +3,7 @@ from env import CryptoEnv
 
 def main():
     # Step 1: Create and configure the environment
-    env = gym.make("YourEnvName")  # Replace "YourEnvName" with the name of your Gym environment
+    env = CryptoEnv("YourEnvName")  # Replace "YourEnvName" with the name of your Gym environment
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]
 
