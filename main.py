@@ -1,5 +1,6 @@
 # Method to run the entire training process
 from env import CryptoEnv
+from agents.SAC import SAC
 
 def main():
     # Step 1: Create and configure the environment
