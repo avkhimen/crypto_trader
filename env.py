@@ -6,6 +6,7 @@ class CryptoEnv():
         self.all_price_series = all_price_series
         self.window_size = window_size
     def reset(self):
+        self.step_order = 0
         return self.select_random_window()
     def select_random_window(self):
         """Select a window from the array with a random starting index."""
@@ -18,10 +19,17 @@ class CryptoEnv():
         return self.ser
     def normalize_price_series(self):
         return self.ser/self.ser[0]
-    # def step(self, action):
-    #     if action == ''
-    #     next_state = []
-    #     reward = 0
-    #     done = False
-    #     info = {}
-    #     return next_state, reward, done, info
+    def step(self, action):
+        self.step_order += 1
+        if action == 0:
+            reward = 0
+        elif action == 1:
+            reward = 1
+        elif action == 2:
+            reward = 2
+        next_state = []
+        done = False
+        if self.step_order == self.window_size:
+            done = True
+        info = {}
+        return next_state, reward, done, info
