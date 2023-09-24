@@ -20,16 +20,16 @@ class CryptoEnv():
     def normalize_price_series(self):
         return self.ser/self.ser[0]
     def step(self, action):
-        self.step_order += 1
-        if action == 0:
+        if action == 0: # do nothing
             reward = 0
-        elif action == 1:
-            reward = 1
-        elif action == 2:
+        elif action == 1: # buy
+            reward = self.ser[self.step_order + 1] -  self.ser[self.step_order]
+        elif action == 2: # sell
             reward = 2
         next_state = []
         done = False
         if self.step_order == self.window_size:
             done = True
         info = {}
+        self.step_order += 1
         return next_state, reward, done, info
