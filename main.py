@@ -1,8 +1,11 @@
 # Method to run the entire training process
 from env import CryptoEnv
-from agents.SAC import SAC
+from agents.dqn import dqn
+import pandas as pd
+from data_utils.support_functions import load_ts
 
 def main():
+    ts = load_ts('close')
     # Step 1: Create and configure the environment
     env = CryptoEnv("YourEnvName")  # Replace "YourEnvName" with the name of your Gym environment
     state_dim = env.observation_space.shape[0]
