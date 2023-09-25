@@ -2,9 +2,10 @@ import numpy as np
 import pandas as pd
 
 class CryptoEnv():
-    def __init__(self, all_price_series, window_size=24):
+    def __init__(self, all_price_series, lookup_interval=12, window_size=24):
         self.all_price_series = all_price_series
         self.window_size = window_size
+        self.lookup_interval = lookup_interval
     def reset(self):
         self.step_order = 0
         return self.select_random_window()
@@ -19,14 +20,17 @@ class CryptoEnv():
         return self.ser
     def normalize_price_series(self):
         return self.ser/self.ser[0]
-    def step(self, action):
+    def step(self, state, action):
         if action == 0: # do nothing
             reward = 0
         elif action == 1: # buy
             reward = self.ser[self.step_order + 1] -  self.ser[self.step_order]
         elif action == 2: # sell
-            reward = 2
-        next_state = []
+            if self.ser[self.step_order + 1] -  self.ser[self.step_order] < 0:
+                reward = 0
+            else:
+                reward = -(self.ser[self.step_order + 1] -  self.ser[self.step_order])
+        next_state = 
         done = False
         if self.step_order == self.window_size:
             done = True
