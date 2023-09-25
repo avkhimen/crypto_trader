@@ -17,7 +17,7 @@ class CryptoEnv():
         start_index = np.random.randint(0, len(self.all_price_series) - self.window_size + 1)
         self.ser = np.array(self.all_price_series[start_index:start_index + self.window_size])
         self.ser = self.normalize_price_series()
-        return self.ser
+        return self.ser.tolist()
     def normalize_price_series(self):
         return self.ser/self.ser[0]
     def step(self, state, action):
@@ -30,7 +30,7 @@ class CryptoEnv():
                 reward = 0
             else:
                 reward = -(self.ser[self.step_order + 1] -  self.ser[self.step_order])
-        next_state = 
+        next_state = [] # must be a list
         done = False
         if self.step_order == self.window_size:
             done = True
