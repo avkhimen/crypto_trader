@@ -3,6 +3,7 @@ from env import CryptoEnv
 from agents.dqn import dqn
 import pandas as pd
 from data_utils.support_functions import load_ts
+from agents.dqn import ReplayBuffer
 
 def main():
     ts = load_ts('close')
@@ -10,7 +11,7 @@ def main():
     env = CryptoEnv("YourEnvName")  # Replace "YourEnvName" with the name of your Gym environment
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]
-
+    memory = ReplayBuffer()
     # Step 2: Initialize the SAC agent
     agent = SAC(state_dim, action_dim,  # Specify state and action dimensions
                 actor_lr=0.001, critic_lr=0.001, alpha_lr=0.001)  # Tune hyperparameters
