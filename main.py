@@ -19,8 +19,7 @@ batch_size    = 32
 def main():
     ts = load_ts('close')
     # Step 1: Create and configure the environment
-    env = CryptoEnv("YourEnvName")  # Replace "YourEnvName" with the name of your Gym environment
-    q = Qnet()
+    env = CryptoEnv(ts)
     q_target = Qnet()
     q_target.load_state_dict(q.state_dict())
     memory = ReplayBuffer()
