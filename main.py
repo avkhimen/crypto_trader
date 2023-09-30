@@ -22,9 +22,9 @@ batch_size    = 32
 class Qnet(nn.Module):
     def __init__(self):
         super(Qnet, self).__init__()
-        self.fc1 = nn.Linear(4, 128)
+        self.fc1 = nn.Linear(37, 128)
         self.fc2 = nn.Linear(128, 128)
-        self.fc3 = nn.Linear(128, 2)
+        self.fc3 = nn.Linear(128, 3)
 
     def forward(self, x):
         x = F.relu(self.fc1(x))
@@ -43,7 +43,7 @@ class Qnet(nn.Module):
 def main():
     ts = load_ts('close_price')
     # Step 1: Create and configure the environment
-    env = CryptoEnv(ts, lookup_interval=3, window_size=6)
+    env = CryptoEnv(ts, lookup_interval=36, window_size=72)
     q = Qnet()
     q_target = Qnet()
     q_target.load_state_dict(q.state_dict())
@@ -52,10 +52,10 @@ def main():
     score = 0.0  
     optimizer = optim.Adam(q.parameters(), lr=learning_rate)
 
-    for n_epi in range(10000):
-        epsilon = max(0.01, 0.08 - 0.01*(n_epi/200)) #Linear annealing from 8% to 1%
+    for n_epi in range(1000000):
+        epsilon = max(0.05, 0.05 - 0.05*(n_epi/2000)) #Linear annealing from 8% to 1%
         s = env.reset()
-        print('reset state')
+        #print('reset state')
         done = False
 
         while not done:
@@ -67,7 +67,7 @@ def main():
 
             score += r
             if done:
-                print('Episode completed')
+                #print('Episode completed')
                 break
 
         if memory.size()>2000:
@@ -75,7 +75,7 @@ def main():
 
         if n_epi%print_interval==0 and n_epi!=0:
             q_target.load_state_dict(q.state_dict())
-            print("n_episode :{}, score : {:.1f}, n_buffer : {}, eps : {:.1f}%".format(
+            print("n_episode :{}, score : {:.5f}, n_buffer : {}, eps : {:.1f}%".format(
                                                             n_epi, score/print_interval, memory.size(), epsilon*100))
             score = 0.0
         
