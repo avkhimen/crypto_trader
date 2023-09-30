@@ -22,6 +22,7 @@ class CryptoEnv():
         #print(len(self.ser_normalized))
         return self.ser_normalized[:self.lookup_interval]
     def step(self, state, action):
+        print('Action is', action)
         cash_state = state[0]
         if cash_state == 0:
             if action == 0: # do nothing
