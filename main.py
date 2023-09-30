@@ -4,7 +4,6 @@ sys.path.append('agents/')
 
 # Method to run the entire training process
 from env import CryptoEnv
-import pandas as pd
 from data_utils.support_functions import load_ts
 from dqn import ReplayBuffer, train
 import torch
@@ -14,15 +13,15 @@ import torch.optim as optim
 import random
 import numpy as np
 
-learning_rate = 0.0005
-gamma         = 0.98
+learning_rate = 0.01
+gamma         = 0.99
 buffer_limit  = 50000
-batch_size    = 32
+batch_size    = 64
 
 class Qnet(nn.Module):
     def __init__(self):
         super(Qnet, self).__init__()
-        self.fc1 = nn.Linear(37, 128)
+        self.fc1 = nn.Linear(13, 128)
         self.fc2 = nn.Linear(128, 128)
         self.fc3 = nn.Linear(128, 3)
 
@@ -42,8 +41,7 @@ class Qnet(nn.Module):
 
 def main():
     ts = load_ts('close_price')
-    # Step 1: Create and configure the environment
-    env = CryptoEnv(ts, lookup_interval=36, window_size=72)
+    env = CryptoEnv(ts, lookup_interval=12, window_size=24)
     q = Qnet()
     q_target = Qnet()
     q_target.load_state_dict(q.state_dict())
@@ -55,7 +53,6 @@ def main():
     for n_epi in range(1000000):
         epsilon = max(0.05, 0.05 - 0.05*(n_epi/2000)) #Linear annealing from 8% to 1%
         s = env.reset()
-        #print('reset state')
         done = False
 
         while not done:
@@ -67,8 +64,9 @@ def main():
 
             score += r
             if done:
-                #print('Episode completed')
                 break
+        with open('scores.txt', 'a') as f:
+            f.write(f"\n {n_epi} {score}")
 
         if memory.size()>2000:
             train(q, q_target, memory, optimizer)
