@@ -3,7 +3,7 @@ import sys
 sys.path.append('agents/')
 
 # Method to run the entire training process
-from env import CryptoEnv
+from env import CryptoEnvDiscreet
 from data_utils.support_functions import load_ts
 from dqn import train
 import torch
@@ -14,10 +14,10 @@ import random
 import numpy as np
 import collections
 
-learning_rate = 0.01
-gamma         = 0.99
-buffer_limit  = 200000
-batch_size    = 64
+learning_rate = 0.001
+gamma         = 0.90
+buffer_limit  = 2000000
+batch_size    = 32
 
 class ReplayBuffer():
     def __init__(self):
@@ -70,12 +70,12 @@ class Qnet(nn.Module):
 
 def main():
     ts = load_ts('close_price')
-    env = CryptoEnv(ts, lookup_interval=24, window_size=48)
+    env = CryptoEnvDiscreet(ts, lookup_interval=24, window_size=48)
     q = Qnet()
     q_target = Qnet()
     q_target.load_state_dict(q.state_dict())
     memory = ReplayBuffer()
-    print_interval = 20
+    print_interval = 200
     score = 0.0  
     optimizer = optim.Adam(q.parameters(), lr=learning_rate)
 
@@ -97,7 +97,7 @@ def main():
         with open('scores.txt', 'a') as f:
             f.write(f"\n {n_epi} {score}")
 
-        if memory.size()>20000:
+        if memory.size()>500000:
             train(q, q_target, memory, optimizer)
 
         if n_epi%print_interval==0 and n_epi!=0:
