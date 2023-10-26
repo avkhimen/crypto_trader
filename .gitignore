@@ -5,3 +5,6 @@
 
 # Files in these dirs
 venv/
+
+# Random files
+*.mp4

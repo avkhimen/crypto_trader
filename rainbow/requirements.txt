@@ -1,3 +1,5 @@
 gymnasium
 matplotlib
 numpy
+moviepy
+gymnasium[classic-control]

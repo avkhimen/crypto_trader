@@ -3,7 +3,6 @@ import os
 import random
 from collections import deque
 from typing import Deque, Dict, List, Tuple
-
 import gymnasium as gym
 import matplotlib.pyplot as plt
 import numpy as np
@@ -12,7 +11,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.nn.utils import clip_grad_norm_
-
 from segment_tree import MinSegmentTree, SumSegmentTree
 
 class ReplayBuffer:
@@ -694,23 +692,6 @@ class DQNAgent:
     def _target_hard_update(self):
         """Hard update: target <- local."""
         self.dqn_target.load_state_dict(self.dqn.state_dict())
-                
-    def _plot(
-        self, 
-        frame_idx: int, 
-        scores: List[float], 
-        losses: List[float],
-    ):
-        """Plot the training progresses."""
-        clear_output(True)
-        plt.figure(figsize=(20, 5))
-        plt.subplot(131)
-        plt.title('frame %s. score: %s' % (frame_idx, np.mean(scores[-10:])))
-        plt.plot(scores)
-        plt.subplot(132)
-        plt.title('loss')
-        plt.plot(losses)
-        plt.show()
 
 # environment
 env = gym.make("CartPole-v1", max_episode_steps=200, render_mode="rgb_array")
@@ -724,17 +705,21 @@ def seed_torch(seed):
         torch.backends.cudnn.benchmark = False
         torch.backends.cudnn.deterministic = True
 
-np.random.seed(seed)
-random.seed(seed)
-seed_torch(seed)
+if __name__ == '__main__':
 
-# parameters
-num_frames = 10000
-memory_size = 10000
-batch_size = 128
-target_update = 100
+    np.random.seed(seed)
+    random.seed(seed)
+    seed_torch(seed)
 
-# train
-agent = DQNAgent(env, memory_size, batch_size, target_update, seed)
+    # parameters
+    num_frames = 10000
+    memory_size = 10000
+    batch_size = 128
+    target_update = 100
 
-agent.train(num_frames)
+    # train
+    agent = DQNAgent(env, memory_size, batch_size, target_update, seed)
+
+    agent.train(num_frames)
+
+    agent.test('.')
