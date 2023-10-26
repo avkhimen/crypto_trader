@@ -1,2 +1,2 @@
 docker build -t torch_container .
-docker run -it --rm torch_container sh
+docker run -it --rm -v ${PWD}/app:/app torch_container sh
