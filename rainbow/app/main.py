@@ -510,6 +510,9 @@ class DQNAgent:
     def step(self, action: np.ndarray) -> Tuple[np.ndarray, np.float64, bool]:
         """Take an action and return the response of the env."""
         next_state, reward, terminated, truncated, _ = self.env.step(action)
+        print('action', action, type(action))
+        print('next_state', next_state, type(next_state))
+        print('reward', reward, type(reward))
         done = terminated or truncated
         
         if not self.is_test:
@@ -693,11 +696,6 @@ class DQNAgent:
         """Hard update: target <- local."""
         self.dqn_target.load_state_dict(self.dqn.state_dict())
 
-# environment
-env = gym.make("CartPole-v1", max_episode_steps=200, render_mode="rgb_array")
-
-seed = 777
-
 def seed_torch(seed):
     torch.manual_seed(seed)
     if torch.backends.cudnn.enabled:
@@ -706,6 +704,11 @@ def seed_torch(seed):
         torch.backends.cudnn.deterministic = True
 
 if __name__ == '__main__':
+
+    # environment
+    env = gym.make("CartPole-v1", max_episode_steps=200, render_mode="rgb_array")
+
+    seed = 777
 
     np.random.seed(seed)
     random.seed(seed)
