@@ -12,6 +12,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.nn.utils import clip_grad_norm_
 from segment_tree import MinSegmentTree, SumSegmentTree
+import time
 
 class ReplayBuffer:
     """A simple numpy replay buffer."""
@@ -412,8 +413,8 @@ class DQNAgent:
         beta: float = 0.6,
         prior_eps: float = 1e-6,
         # Categorical DQN parameters
-        v_min: float = -1,
-        v_max: float = 1,
+        v_min: float = 0,
+        v_max: float = 100,
         atom_size: int = 51,
         # N-step Learning
         n_step: int = 3,
@@ -437,6 +438,11 @@ class DQNAgent:
         """
         obs_dim = env.observation_space.shape[0]
         action_dim = env.action_space.n
+
+        time.sleep(5)
+
+        print('obs_dim', obs_dim)
+        print('action_dim', action_dim)
         
         self.env = env
         self.batch_size = batch_size
@@ -510,9 +516,9 @@ class DQNAgent:
     def step(self, action: np.ndarray) -> Tuple[np.ndarray, np.float64, bool]:
         """Take an action and return the response of the env."""
         next_state, reward, terminated, truncated, _ = self.env.step(action)
-        #print('action', action, type(action))
-        #print('next_state', next_state, type(next_state))
-        #print('reward', reward, type(reward))
+        print('action', action, type(action))
+        print('next_state', next_state, type(next_state))
+        print('reward', reward, type(reward))
         done = terminated or truncated
         
         if not self.is_test:
@@ -706,8 +712,8 @@ def seed_torch(seed):
 if __name__ == '__main__':
 
     # environment
-    #env = gym.make("CartPole-v1", max_episode_steps=200, render_mode="rgb_array")
-    env = gym.make("MountainCar-v0", max_episode_steps=500, render_mode='rgb_array')
+    env = gym.make("CartPole-v1", max_episode_steps=200, render_mode="rgb_array")
+    #env = gym.make("Acrobot-v1", max_episode_steps=200, render_mode='rgb_array')
 
     seed = 777
 
