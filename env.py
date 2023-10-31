@@ -65,3 +65,6 @@ class CryptoEnvDiscreet():
             done = True
         #info = {}
         return next_state, reward, done, info
+
+    def close(self):
+        pass
