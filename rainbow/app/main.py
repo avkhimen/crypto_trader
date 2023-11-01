@@ -13,6 +13,8 @@ import torch.optim as optim
 from torch.nn.utils import clip_grad_norm_
 from segment_tree import MinSegmentTree, SumSegmentTree
 import time
+from env import CryptoEnvDiscreet
+from data_utils.support_functions import load_ts
 
 class ReplayBuffer:
     """A simple numpy replay buffer."""
@@ -714,6 +716,8 @@ if __name__ == '__main__':
     # environment
     env = gym.make("CartPole-v1", max_episode_steps=200, render_mode="rgb_array")
     #env = gym.make("Acrobot-v1", max_episode_steps=200, render_mode='rgb_array')
+    ts = load_ts('close_price')
+    env = CryptoEnvDiscreet(ts, lookup_interval=24, window_size=48)
 
     seed = 777
 
