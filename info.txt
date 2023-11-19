@@ -7,3 +7,5 @@ https://www.unixtimestamp.com/
 https://support.kraken.com/hc/en-us/articles/360047124832-Downloadable-historical-OHLCVT-Open-High-Low-Close-Volume-Trades-data
 
 https://github.com/Curt-Park/rainbow-is-all-you-need/blob/master/08.rainbow.ipynb
+
+https://api.poloniex.com/markets/DASH_USDT/orderBook
