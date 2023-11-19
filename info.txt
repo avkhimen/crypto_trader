@@ -9,3 +9,5 @@ https://support.kraken.com/hc/en-us/articles/360047124832-Downloadable-historica
 https://github.com/Curt-Park/rainbow-is-all-you-need/blob/master/08.rainbow.ipynb
 
 https://api.poloniex.com/markets/DASH_USDT/orderBook
+
+https://api.bittrex.com/v3/markets/DASH-BTC/orderbook
